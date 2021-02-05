@@ -1,0 +1,9 @@
+#!/bin/sh
+case "$ACTION" in
+ifup)
+/sbin/video.sh
+/etc/init.d/redsocks2 enabled && /etc/init.d/redsocks2 restart
+;;
+ifdown)
+;;
+esac

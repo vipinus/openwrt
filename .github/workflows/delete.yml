@@ -1,0 +1,25 @@
+name: 'Delete old artifacts'
+on:
+  #schedule:
+  #  - cron: '* * * * *' # every hour
+      
+#    push: 
+#      branches: 
+#        - master
+    
+  watch:
+    types: [started]
+
+jobs:
+  remove-old-artifacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - name: Remove old artifacts
+      uses: c-hive/gha-remove-artifacts@v1
+      with:
+        age: '1 month'
+        # Optional inputs
+        # skip-tags: true
+        # skip-recent: 5

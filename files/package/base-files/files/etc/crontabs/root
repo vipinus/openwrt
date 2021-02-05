@@ -1,0 +1,14 @@
+# 文件格式说明
+#  ——分钟 (0 - 59)
+# |  ——小时 (0 - 23)
+# | |  ——日   (1 - 31)
+# | | |  ——月   (1 - 12)
+# | | | |  ——星期 (0 - 7)（星期日=0或7）
+# | | | | |
+# * * * * * 被执行的命令
+* * * * * /etc/init.d/dnscrypt-proxy start
+* * * * * /etc/init.d/stunnel start
+* * * * * /etc/init.d/chinadns start
+* * * * * /sbin/vpn.sh>/dev/null 2>&1
+* * * * * /sbin/checkgw.sh
+0 0 * * 0 /sbin/update_ignore_list.sh>/dev/null 2>&1

@@ -1,0 +1,79 @@
+#=================================================
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: eSirPlayground
+# Youtube Channel: https://goo.gl/fvkdwm 
+#=================================================
+
+name: NETGEAR-WNDR4700V1
+
+on: 
+  release:
+    types: [published]
+
+  #push:
+  #  branches: 
+  #    - master
+
+  #schedule:
+  #  - cron: 0 8 * * 5
+  
+  watch:
+    types: [started]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo -E apt-get -y update
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch unzip lib32gcc1 libc6-dev-i386 subversion flex node-uglify gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils  libelf-dev autoconf automake libtool autopoint device-tree-compiler libuv-dev python3.6 zlib1g-dev upx-ucl node-uglify antlr3 gperf
+    - name: Clone source code
+      env: 
+        REPO_URL: https://github.com/openwrt/openwrt.git
+        REPO_BRANCH: v19.07.6
+      run: |
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        cd openwrt
+#        sed -i '5s/#//' feeds.conf.default
+    - name: Update & Install feeds
+      working-directory: ./openwrt
+      run: |
+        git clone https://ddvb:E4b3k7y8-123@github.com/ddvb/openwrt-redsocks2.git package/redsocks2
+        git clone https://ddvb:E4b3k7y8-123@github.com/ddvb/openwrt-chinadns.git package/chinadns
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+#        
+    - name: Configuration Customization
+      env:
+        CONFIG_FILE: 'NETGEAR-WNDR4700V1.config'
+      run: |
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x ./customize.sh && ./customize.sh
+        cd openwrt && make defconfig
+#        make ./package/redsocks2/compile V=99
+#        make ./package/chinadns/compile V=99
+       
+    - name: Download package
+      working-directory: ./openwrt
+      run: |
+        make download -j$(nproc)
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+    - name: Build firmware
+      working-directory: ./openwrt
+      run: |
+        echo -e "$(nproc) thread build."
+        make -j$(nproc) V=s > /dev/null
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: OpenWrt
+        path: openwrt/bin
