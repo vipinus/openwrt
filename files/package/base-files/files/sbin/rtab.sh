@@ -5,3 +5,4 @@ do
 iptables -t nat -I REDSOCKS2 -d $n -j RETURN
 done
 /etc/init.d/redsocks2 enable
+/etc/init.d/redsocks2 restart
