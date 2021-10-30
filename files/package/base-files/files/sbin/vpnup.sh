@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 file="/tmp/vpnup.lock"
 if [ ! -f "$file" ]; then
 	username=$(grep username /etc/config/vpn | cut -f 2 -d "'")
