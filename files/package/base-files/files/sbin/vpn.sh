@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+#set -e
 echo "nameserver 114.114.114.114" > /etc/resolv.conf
 
 lock="/tmp/vpn.lock"
