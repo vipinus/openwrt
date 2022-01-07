@@ -1,6 +1,6 @@
 1.  router-model
 2.  Network--IP Addresses and Names--dnscrypt-proxy
-3.  Network--ChinaDNS
+3.  #Network--ChinaDNS
 4.  Network--ipset
 5.  Network--redsocks
 6.  Network--redsocks2
