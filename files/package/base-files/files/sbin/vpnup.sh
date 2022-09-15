@@ -7,7 +7,7 @@ if [ ! -f "$file" ]; then
 	mac=$(ip link show br-lan | awk -e '/^\s*link\//{print $2}')
 	pass=$(echo -n $password | md5sum | cut -f 1 -d " ")
 	mod=$(cat /proc/cpuinfo | grep machine | cut -d: -f2 | sed 's/\ //g')
-	wget --no-check-certificate "https://www.7d24hrs.com/v201804/config?username="$username"&password="$pass"&mac="$mac"&mod="$mod -O /etc/stunnel/stunnel.temp 
+	wget --no-check-certificate "https://www.8964.date/v201804/config?username="$username"&password="$pass"&mac="$mac"&mod="$mod -O /etc/stunnel/stunnel.temp 
 	if [ $(grep 0.0.0.0 /etc/stunnel/stunnel.temp) ]; then
 		exit 0
 	else
