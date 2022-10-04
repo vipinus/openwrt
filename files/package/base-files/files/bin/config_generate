@@ -241,7 +241,7 @@ generate_static_system() {
 	uci -q batch <<-EOF
 		delete system.@system[0]
 		add system system
-		set system.@system[-1].hostname='202202'
+		set system.@system[-1].hostname='202210'
 		set system.@system[-1].timezone='Asia/Shanghai'
 		set system.@system[-1].ttylogin='0'
 		set system.@system[-1].log_size='64'
