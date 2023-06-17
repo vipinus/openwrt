@@ -1,1 +1,2 @@
 /etc/init.d/redsocks enable
+chmod 600 /etc/stunnel/stunnel.pem
